@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知识问答合集</title>
+<style>
+  :root {
+    --ink: #1c1c1e;
+    --ink-soft: #4a4a4f;
+    --paper: #fbfaf7;
+    --card: #ffffff;
+    --line: #e8e4dc;
+    --accent: #c8553d;
+    --accent-soft: #f7e9e5;
+    --gold: #b8860b;
+    --tag: #2d6a4f;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC",
+                 "PingFang SC", "Microsoft YaHei", serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.8;
+    font-size: 15.5px;
+    padding: 0 20px 100px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 780px; margin: 0 auto; }
+
+  /* ===== 封面头部 ===== */
+  header {
+    text-align: center;
+    padding: 70px 20px 50px;
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  header::before {
+    content: "";
+    position: absolute;
+    top: 32px; left: 50%;
+    transform: translateX(-50%);
+    width: 40px; height: 3px;
+    background: var(--accent);
+  }
+
+  header::after {
+    content: "";
+    position: absolute;
+    bottom: 18px; left: 50%;
+    transform: translateX(-50%);
+    width: 60px; height: 1px;
+    background: var(--line);
+  }
+
+  h1 {
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    margin-bottom: 14px;
+    color: var(--ink);
+  }
+
+  .subtitle {
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--ink-soft);
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+
+  .meta {
+    margin-top: 22px;
+    font-size: 12px;
+    color: #999;
+    letter-spacing: 1px;
+    font-family: "PingFang SC", sans-serif;
+  }
+
+  /* ===== 章节标题 ===== */
+  h2 {
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin: 56px 0 26px;
+    padding: 0 0 14px 0;
+    color: var(--ink);
+    border-bottom: 2px solid var(--ink);
+    position: relative;
+    page-break-after: avoid;
+  }
+
+  h2::before {
+    content: attr(data-idx);
+    font-family: Georgia, serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--accent);
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  h2::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -2px;
+    width: 56px; height: 2px;
+    background: var(--accent);
+  }
+
+  /* ===== 问答卡片 ===== */
+  .qa {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 22px 18px 26px;
+    margin-bottom: 14px;
+    position: relative;
+    page-break-inside: avoid;
+    transition: border-color .2s;
+  }
+
+  .qa::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 18px; bottom: 18px;
+    width: 3px;
+    background: var(--accent-soft);
+    border-radius: 0 3px 3px 0;
+  }
+
+  .q {
+    font-weight: 700;
+    font-size: 15.5px;
+    margin-bottom: 9px;
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    color: var(--ink);
+  }
+
+  .num {
+    flex-shrink: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--ink);
+    width: 24px; height: 24px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 50%;
+    letter-spacing: 0;
+  }
+
+  .a {
+    padding-left: 34px;
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.75;
+  }
+
+  .a::before {
+    content: "答";
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    padding: 0 4px;
+    margin-right: 8px;
+    vertical-align: 1px;
+    letter-spacing: 0;
+    font-family: "PingFang SC", sans-serif;
+  }
+
+  .a strong {
+    color: var(--ink);
+    font-weight: 700;
+    background: linear-gradient(transparent 62%, #f5d76e 62%);
+    padding: 0 2px;
+  }
+
+  /* ===== 页脚 ===== */
+  .footer {
+    margin-top: 70px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-size: 12px;
+    color: #aaa;
+    letter-spacing: 2px;
+    font-family: "PingFang SC", sans-serif;
+  }
+
+  .footer .mark {
+    color: var(--accent);
+    font-size: 16px;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* ===== 打印 ===== */
+  @media print {
+    body {
+      background: #fff;
+      padding: 0;
+      font-size: 11.5pt;
+    }
+    header { padding: 20pt 0 30pt; }
+    h1 { font-size: 24pt; letter-spacing: 4px; }
+    h2 {
+      font-size: 15pt;
+      margin: 28pt 0 14pt;
+      page-break-after: avoid;
+    }
+    .qa {
+      border: 1px solid #ddd;
+      background: #fff;
+      page-break-inside: avoid;
+      padding: 12pt 16pt 12pt 20pt;
+      margin-bottom: 9pt;
+    }
+    .a strong { background: none; font-weight: 700; text-decoration: underline; }
+    .a::before { display: none; }
+    .q .num { background: #333; }
+    @page { margin: 16mm 14mm; }
+  }
+
+  @media (max-width: 520px) {
+    h1 { font-size: 26px; letter-spacing: 3px; }
+    .qa { padding: 15px 16px 15px 20px; }
+    .a { padding-left: 0; margin-top: 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>知识问答合集</h1>
+  <p class="subtitle">影视 · 历史 · 哲学 · 科学 · 艺术</p>
+  <p class="meta">共 76 题 &nbsp;|&nbsp; 附简要解析</p>
+</header>
+
+<!-- ========== 一 ========== -->
+<h2 data-idx="CHAPTER 01">影视与文学</h2>
+
+<div class="qa"><div class="q"><span class="num">1</span>阿尔弗雷德·希区柯克一生导演过多少部院线电影？</div><div class="a">常见说法是 <strong>53 部</strong>，因统计口径不同也有 50 余部到 57 部等说法。</div></div>
+
+<div class="qa"><div class="q"><span class="num">2</span>《白日梦想家》男主擅长什么运动？</div><div class="a"><strong>滑板</strong>（滑板速降，非高山滑雪）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">3</span>日剧《消失的初恋》开头由什么引发？</div><div class="a"><strong>一块橡皮引起的误会</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">4</span>《呼啸山庄》中希斯克利夫的挚爱是谁？</div><div class="a"><strong>凯瑟琳·恩萧</strong>（后嫁埃德加·林顿，成为凯瑟琳·林顿）。注意区分她女儿小凯瑟琳·林顿。</div></div>
+
+<div class="qa"><div class="q"><span class="num">5</span>哪部电影不是由洛夫克拉夫特小说改编？</div><div class="a"><strong>《阴宅瓦德马尔》</strong>（改编自洛氏元素，非直接改编某部小说）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">6</span>“喜剧就是人生，只不过砍掉了无聊的部分”出自哪位导演？</div><div class="a"><strong>希区柯克</strong>（原话为“戏剧就是切除了无聊部分的生活”）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">7</span>《武林外传》邢育森经典台词不包括哪句？</div><div class="a"><strong>“帮我照顾好我七舅姥爷”</strong>（这是燕小六的台词）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">8</span>《武林外传》佟掌柜建议秀才把诗写成什么？</div><div class="a"><strong>清风明月偷我心</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">9</span>《明星大侦探》中不是魏晨的名场面是哪句？</div><div class="a"><strong>“寻找妻子，两个女儿”</strong>（这是撒贝宁的名场面）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">10</span>《征服》中瓜摊老板叫什么？</div><div class="a">剧中角色名 <strong>郝哥</strong>，演员李广奇。</div></div>
+
+<div class="qa"><div class="q"><span class="num">11</span>《放羊的星星》仲天骐被邀请的F1车队是？</div><div class="a">剧中未明确写出，只说飞往意大利。若必须选，最合理推断是 <strong>法拉利</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">12</span>《扬名立万》最终谁活下来了？</div><div class="a"><strong>夜莺</strong>（齐乐山、黑衣人、海兆丰均死亡或牺牲）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">13</span>《教父》中贯穿全片的代表性水果是？</div><div class="a"><strong>橘子</strong>（橙子），象征死亡与危险。</div></div>
+
+<div class="qa"><div class="q"><span class="num">14</span>无脚鸟寓言出自王家卫哪部影片？</div><div class="a"><strong>《阿飞正传》</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">15</span>《3年A班》佟一飒的原名是什么？</div><div class="a"><strong>柊一飒</strong>（“佟一飒”为误写）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">16</span>《山田太郎物语》中饰演山田太郎的是谁？</div><div class="a"><strong>二宫和也</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">17</span>谁演过花泽类？四人中谁没演过？</div><div class="a">演过花泽类的有周渝民、小栗旬、金贤重、官鸿、Dew等。在藤木直人、金贤重、松本润、小栗旬中，<strong>藤木直人</strong>没演过；松本润演的是道明寺，也没演过花泽类。</div></div>
+
+<div class="qa"><div class="q"><span class="num">18</span>《那年秋天风在吹》吴树和吴英分别后在哪里偶遇？</div><div class="a">若指《那年冬天，风在吹》，重逢场景在 <strong>餐厅</strong>（最接近选项“餐厅外”）。</div></div>
+
+<!-- ========== 二 ========== -->
+<h2 data-idx="CHAPTER 02">历史与人物</h2>
+
+<div class="qa"><div class="q"><span class="num">19</span>“天地英雄气，千秋尚凛然”称赞的是三国时期谁？</div><div class="a"><strong>刘备</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">20</span>朱棣几征蒙古？</div><div class="a"><strong>五</strong>次亲征。</div></div>
+
+<div class="qa"><div class="q"><span class="num">21</span>永乐朝的黑衣宰相是谁？</div><div class="a"><strong>姚广孝</strong>（法名道衍）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">22</span>嘉靖把哪个皇帝的牌位移出太庙？</div><div class="a"><strong>明仁宗朱高炽</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">23</span>开皇二年隋文帝把传国玉玺改名为什么？</div><div class="a"><strong>受命玺</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">24</span>1601年在苏州带领百姓痛打税棍并发起暴动的是谁？</div><div class="a"><strong>葛贤</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">25</span>最后一位日本幕府将军是谁？</div><div class="a"><strong>德川庆喜</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">26</span>“表里必行之者”形容哪位日本战国人物？</div><div class="a"><strong>真田昌幸</strong>（丰臣秀吉的评价）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">27</span>丰臣秀吉一夜筑城的是哪座城？</div><div class="a"><strong>墨俣城</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">28</span>南朝是哪几个王朝的统称？</div><div class="a"><strong>宋、齐、梁、陈</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">29</span>中华民国成立前为筹组政府通过的法律文件是？</div><div class="a"><strong>《中华民国临时政府组织大纲》</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">30</span>1648年威斯特伐利亚条约代表什么？</div><div class="a"><strong>欧洲进入主权国家阶段</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">31</span>一般认为有史料记载的黄河第一次大改道发生在哪一年？</div><div class="a"><strong>公元前602年</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">32</span>谁不是宋仁宗赵祯时期的人？</div><div class="a"><strong>柳宗元</strong>（唐代人）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">33</span>秦始皇最后完成的是哪一项统一？</div><div class="a"><strong>统一货币</strong>（时间最晚）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">34</span>法兰西第四共和国的年限是？</div><div class="a"><strong>1946—1958年</strong>（选项中选1945—1958）。</div></div>
+
+<!-- ========== 三 ========== -->
+<h2 data-idx="CHAPTER 03">哲学与思想</h2>
+
+<div class="qa"><div class="q"><span class="num">35</span>康德在认识论上主要讨论的问题是什么？</div><div class="a"><strong>先天综合判断如何可能？</strong>核心是普遍必然的科学知识如何可能，以及认识的界限在哪里。</div></div>
+
+<div class="qa"><div class="q"><span class="num">36</span>“师夷长技以制夷、中体西用、民主与科学、马克思主义”共同主题是什么？</div><div class="a"><strong>拯救民族危机</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">37</span>“异化”概念最先由哪位哲学家提出？</div><div class="a"><strong>黑格尔</strong>（马克思发展为劳动异化理论）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">38</span>《师说》中表达“每个人都有知识盲区，应听取专业人士意见”的句子是？</div><div class="a"><strong>“道之所存，师之所存也。”</strong>也可答“闻道有先后，术业有专攻”。</div></div>
+
+<!-- ========== 四 ========== -->
+<h2 data-idx="CHAPTER 04">科学常识</h2>
+
+<div class="qa"><div class="q"><span class="num">39</span>铁离子是什么颜色的？</div><div class="a">Fe²⁺ 浅绿色，Fe³⁺ 棕黄色。</div></div>
+
+<div class="qa"><div class="q"><span class="num">40</span>未解决的物理学问题中不包括哪项？</div><div class="a"><strong>狭义相对论</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">41</span>以下哪个动物不是哺乳动物？</div><div class="a"><strong>鸡</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">42</span>导电性最好的金属是？</div><div class="a"><strong>银</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">43</span>不属于机体神经调节的是？</div><div class="a"><strong>胰岛素分泌</strong>（属于体液调节）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">44</span>X光、CT、超声、磁共振，哪种绝对不能带铁质物品？</div><div class="a"><strong>磁共振（MRI）</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">45</span>静质量最大的粒子是？</div><div class="a"><strong>中子</strong>（中子 &gt; 质子 &gt; 电子 &gt; 中微子）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">46</span>AMD 7000 有多少针脚？</div><div class="a"><strong>AM5 接口 1718 个针脚</strong>（针脚在主板插槽上）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">47</span>机体与外界环境之间的气体交换过程叫什么？</div><div class="a"><strong>外呼吸</strong>（选项中选“呼吸”）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">48</span>疱疹病毒的特点包括哪些？</div><div class="a">可能瘙痒、可通过胎盘、双链DNA；<strong>“感染一次不会再感染”是错误的</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">49</span>世界上最大的盆地位于哪个国家？</div><div class="a"><strong>刚果盆地</strong>，主要位于 <strong>刚果民主共和国</strong>（选项中选“刚果”）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">50</span>陆地国土面积最大的是？</div><div class="a"><strong>保加利亚</strong>（保加利亚 &gt; 匈牙利 &gt; 葡萄牙 &gt; 奥地利）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">51</span>中国最大的群岛是？</div><div class="a"><strong>舟山群岛</strong>。</div></div>
+
+<!-- ========== 五 ========== -->
+<h2 data-idx="CHAPTER 05">艺术与音乐</h2>
+
+<div class="qa"><div class="q"><span class="num">52</span>歌剧诞生于哪个国家？</div><div class="a"><strong>意大利</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">53</span>“吴带当风”与哪位历史人物有关？</div><div class="a"><strong>吴道子</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">54</span>塞尚被称为什么？</div><div class="a"><strong>现代艺术之父</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">55</span>Alberto Burri 没用过哪个材料？</div><div class="a"><strong>霓虹灯</strong>（他用过沙子、塑料、沥青）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">56</span>电影界“圣三位一体”导演是谁？</div><div class="a"><strong>伯格曼、费里尼、塔可夫斯基</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">57</span>《圣山》中佐杜洛夫斯基扮演的术士将什么提炼成黄金？</div><div class="a"><strong>粪便</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">58</span>维吉尔的代表作是？</div><div class="a"><strong>《埃涅阿斯纪》</strong>。</div></div>
+
+<!-- ========== 六 ========== -->
+<h2 data-idx="CHAPTER 06">语言与生活</h2>
+
+<div class="qa"><div class="q"><span class="num">59</span>樱花的日语是什么？</div><div class="a"><strong>桜（さくら / sakura）</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">60</span>辛夷是什么植物？</div><div class="a">通常指 <strong>紫玉兰的干燥花蕾</strong>，中药名“辛夷”。</div></div>
+
+<div class="qa"><div class="q"><span class="num">61</span>桃李满天下最初指的是谁？</div><div class="a"><strong>狄仁杰</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">62</span>谷雨之后的节气是？</div><div class="a"><strong>立夏</strong>。</div></div>
+
+<!-- ========== 七 ========== -->
+<h2 data-idx="CHAPTER 07">其他</h2>
+
+<div class="qa"><div class="q"><span class="num">63</span>《世说新语》说的是哪个时代的人和事？</div><div class="a"><strong>东汉末年至东晋</strong>，核心是<strong>魏晋</strong>（选项选“三国魏晋”）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">64</span>《民法典》中哪个不属于第一顺位继承人？</div><div class="a"><strong>祖父母</strong>（属于第二顺位）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">65</span>我国第一部情景喜剧是？</div><div class="a"><strong>《我爱我家》</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">66</span>论述家庭教育经验的教育专著是？</div><div class="a"><strong>《教育漫话》</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">67</span>茨威格的作品不包括哪部？</div><div class="a"><strong>《皇后杀手的婚礼》</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">68</span>朴赞郁的出道作是？</div><div class="a"><strong>《月亮是太阳做的梦》</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">69</span>不是苏州评话艺术家的是？</div><div class="a"><strong>王少堂</strong>（扬州评话）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">70</span>罗马天主教最古老且排名第一的圣殿是？</div><div class="a"><strong>拉特朗大殿</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">71</span>故宫中和殿的屋顶是什么形式？</div><div class="a"><strong>攒尖顶</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">72</span>水闸闸墩头部形状用得最普遍的是？</div><div class="a"><strong>半圆形</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">73</span>《汉谟拉比法典》写在什么上？</div><div class="a"><strong>岩石</strong>（黑色玄武岩石柱）。</div></div>
+
+<div class="qa"><div class="q"><span class="num">74</span>现存最早的系统古代法医学著作是？作者是谁？</div><div class="a"><strong>《洗冤集录》</strong>，作者 <strong>宋慈</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">75</span>《水浒传》中鲁智深听到什么声音坐化圆寂？</div><div class="a"><strong>钱塘江潮信</strong>。</div></div>
+
+<div class="qa"><div class="q"><span class="num">76</span>神雕侠侣中杨康怎么死的？</div><div class="a"><strong>他自己害死自己</strong>（打中沾有蛇毒的软猬甲）。</div></div>
+
+<div class="footer">
+  <span class="mark">◆</span>
+  共 76 题 · 整理归档<br>
+  如需转载请注明出处
+</div>
+
+</div>
+</body>
+</html>
